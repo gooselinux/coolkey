@@ -1,0 +1,28 @@
+diff -up ./src/coolkey/object.cpp.coolkey-pcsc-usb ./src/coolkey/object.cpp
+--- ./src/coolkey/object.cpp.coolkey-pcsc-usb	2010-06-17 17:35:38.568733332 -0700
++++ ./src/coolkey/object.cpp	2010-06-17 17:39:05.741733590 -0700
+@@ -505,6 +505,10 @@ dataStart(const CKYByte *buf, unsigned i
+     unsigned char tag;
+     unsigned int used_length= 0;
+ 
++    if(!buf) {
++        return NULL;
++    }
++
+     tag = buf[used_length++];
+ 
+     /* blow out when we come to the end */
+diff -up ./src/coolkey/slot.cpp.coolkey-pcsc-usb ./src/coolkey/slot.cpp
+--- ./src/coolkey/slot.cpp.coolkey-pcsc-usb	2010-06-17 17:35:13.065982523 -0700
++++ ./src/coolkey/slot.cpp	2010-06-17 17:38:18.386733068 -0700
+@@ -2103,6 +2103,10 @@ Slot::loadCACCert(CKYByte instance)
+ 	if (status != CKYSUCCESS) {
+ 	    handleConnectionError();
+ 	}
++
++        if(CKYBuffer_Size(&rawCert) == 0) {
++             handleConnectionError();
++        }
+ 	log->log("CAC Cert %d: fetch CAC Cert:  %d ms\n", 
+ 						instance, OSTimeNow() - time);
+     }
